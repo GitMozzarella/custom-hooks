@@ -1,32 +1,15 @@
-import React from 'react'
-import { useFetch, IPost } from './useFetch'
-import './App.css'
+import { useLocalStorage } from './useLocalStorage'
 
 function App() {
-	const { data, isLoading, error, refetch } = useFetch(
-		'https://jsonplaceholder.typicode.com/posts'
-	)
+	const [token, { setItem, removeItem }] = useLocalStorage('token')
 
 	return (
-		<div className='container'>
+		<div>
+			<p>Твой токен: {token}</p>
 			<div>
-				<button
-					className='button'
-					onClick={async () => await refetch({ params: { _limit: 3 } })}
-				>
-					Перезапросить
-				</button>
+				<button onClick={() => setItem('new-token')}>Задать токен</button>
+				<button onClick={() => removeItem()}>Удалить токен</button>
 			</div>
-			{isLoading && <div className='loading'>Загрузка...</div>}
-			{error && <div className='error'>Произошла ошибка</div>}
-			{data &&
-				!isLoading &&
-				data.map((item: IPost) => (
-					<div key={item.id} className='post'>
-						<div className='post-title'>{item.title}</div>
-						<div className='post-body'>{item.body}</div>
-					</div>
-				))}
 		</div>
 	)
 }
