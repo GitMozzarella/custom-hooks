@@ -1,13 +1,16 @@
 import './App.css'
-import { useViewportSize } from './useViewportSize'
+import { useWindowScroll } from './useWindowScroll'
 
 function App() {
-	const { height, width } = useViewportSize()
+	const [scroll, scrollTo] = useWindowScroll()
 
 	return (
-		<>
-			Width: {width}, height: {height}
-		</>
+		<div>
+			<p>
+				Scroll position x: {scroll.x}, y: {scroll.y}
+			</p>
+			<button onClick={() => scrollTo({ y: 0 })}>Scroll to top</button>
+		</div>
 	)
 }
 
