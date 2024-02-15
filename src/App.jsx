@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { useToggle } from './useToggle'
 import './App.css'
 
 function App() {
 	const buttonRef = useRef(null)
-	const [value, toggle] = useToggle(['blue', 'orange', 'cyan', 'teal'])
+	const [value, toggle] = useToggle(['light', 'dark'])
+	const [themeClass, setThemeClass] = useState('light')
 
 	const changeBackgroundColor = color => {
 		if (buttonRef.current) {
@@ -13,14 +14,14 @@ function App() {
 	}
 
 	useEffect(() => {
-		changeBackgroundColor(value)
+		changeBackgroundColor(value === 'light' ? '#007bff' : '#ffc107')
+		setThemeClass(value)
 	}, [value])
 
 	return (
-		<div ref={buttonRef} className='container'>
-			<button className='custom-button' onClick={toggle}>
-				{value}
-			</button>
+		<div className={`container ${themeClass}`}>
+			<h1>Current theme: {value}</h1>
+			<button onClick={toggle}>Сменить тему</button>
 		</div>
 	)
 }

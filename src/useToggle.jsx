@@ -15,7 +15,7 @@ const toggleReducer = (state, action) => {
 	}
 }
 
-export function useToggle(values = ['blue', 'orange', 'cyan', 'teal']) {
+export function useToggle(values) {
 	const [state, dispatch] = useReducer(toggleReducer, initialState)
 
 	const toggle = () => {
