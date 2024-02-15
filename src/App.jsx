@@ -1,21 +1,28 @@
+import React, { useRef, useEffect } from 'react'
+import { useToggle } from './useToggle'
 import './App.css'
-import { useWindowScroll } from './useWindowScroll'
 
 function App() {
-	const [scroll, scrollTo] = useWindowScroll()
+	const buttonRef = useRef(null)
+	const [value, toggle] = useToggle(['blue', 'orange', 'cyan', 'teal'])
+
+	const changeBackgroundColor = color => {
+		if (buttonRef.current) {
+			buttonRef.current.style.backgroundColor = color
+		}
+	}
+
+	useEffect(() => {
+		changeBackgroundColor(value)
+	}, [value])
 
 	return (
-		<div className='container'>
-			<p className='scroll-info'>
-				Scroll position x: {scroll.x}, y: {scroll.y}
-			</p>
-			<button
-				className='button'
-				onClick={() => scrollTo({ x: scroll.x, y: 0 })}
-			>
-				Scroll to top
+		<div ref={buttonRef} className='container'>
+			<button className='custom-button' onClick={toggle}>
+				{value}
 			</button>
 		</div>
 	)
 }
+
 export default App
