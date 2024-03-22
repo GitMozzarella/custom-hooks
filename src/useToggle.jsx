@@ -1,26 +1,34 @@
 import { useReducer } from 'react'
 
-const initialState = {
-	valueIndex: 0
-}
-
 const toggleReducer = (state, action) => {
 	switch (action.type) {
 		case 'toggle':
+			const nextIndex = (state.valueIndex + 1) % state.values.length
 			return {
-				valueIndex: (state.valueIndex + 1) % action.values.length
+				valueIndex: nextIndex,
+				values: state.values
 			}
 		default:
 			return state
 	}
 }
 
-export function useToggle(values) {
-	const [state, dispatch] = useReducer(toggleReducer, initialState)
+const initialState = {
+	valueIndex: 0,
+	values: [true, false]
+}
 
-	const toggle = () => {
+export function useToggle(values) {
+	const actualInitialState = {
+		...initialState,
+		values: values || initialState.values
+	}
+
+	const [state, dispatch] = useReducer(toggleReducer, actualInitialState)
+
+	const toggle = values => {
 		dispatch({ type: 'toggle', values })
 	}
 
-	return [values[state.valueIndex], toggle]
+	return [state.values[state.valueIndex], toggle]
 }

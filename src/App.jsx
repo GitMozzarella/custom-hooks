@@ -21,7 +21,7 @@ function App() {
 	return (
 		<div className={`container ${themeClass}`}>
 			<h1>Current theme: {value}</h1>
-			<button onClick={toggle}>Сменить тему</button>
+			<button onClick={() => toggle(['light', 'dark'])}>Сменить тему</button>
 		</div>
 	)
 }
